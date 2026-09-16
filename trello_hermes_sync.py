@@ -189,7 +189,7 @@ def sync(target_mode="all"):
             if blocked_task_id and blocked_reason:
                 live_desc += f"\n> ⚠️ **Blocked at `{blocked_task_id}`**: {blocked_reason}\n"
 
-            live_desc += "\n### Invariants\n- Code execution strictly via Antigravity CLI (`agy`).\n- Verification with exit code 0 before completion.\n"
+            live_desc += "\n### Invariants\n- Execution: Run builds and tests in isolated workspaces.\n- Verification with exit code 0 before completion.\n"
             trello_api(f"cards/{card_id}", method="PUT", data={"desc": live_desc})
 
             # Case A: Blocked state detected
