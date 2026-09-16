@@ -6,6 +6,38 @@ An automated, two-way bridge connecting a **Trello Board** to **Hermes Agent** m
 
 ---
 
+## Expected Workflow & Lifecycle
+
+Here is the exact step-by-step lifecycle of a task from creation to completion:
+
+```
+[1. User Creates Card in Trello]
+   │  • List: "Delegate to Hermes Now" (Immediate) or "Delegate to Hermes in Morning" (Batch)
+   │  • Body: Plain description OR sequential agent instructions (e.g. seo_agent: ... product_marketer: ...)
+   ▼
+[2. Sync Bridge Ingestion (trello_hermes_sync.py)]
+   │  • Parses agent roles or defaults to 'default' profile.
+   │  • Ingests tasks into Hermes Kanban (SQLite).
+   │  • Updates Trello card with real-time pipeline status checklist.
+   │  • Sends intake notification to Discord.
+   ▼
+[3. Autonomous Multi-Agent Execution]
+   │  • First stage starts ➔ Trello card automatically moves to "Doing".
+   │  • Discord receives start notification.
+   │  • Hermes Architect profiles execute strategy/copy/spec.
+   │  • Antigravity CLI (`agy`) builds code & renders media in sandbox workspaces.
+   │  • If a task blocks ➔ Discord receives instant blocker alert, Trello updates to [BLOCKED] ⊘.
+   │  • Once unblocked/resumed ➔ Card updates to [RUNNING] ● and continues.
+   │  • Verification: Every stage must pass tests (Exit Code 0).
+   ▼
+[4. Completion & Two-Way Sync Back]
+   │  • All pipeline stages finish ➔ Trello card automatically moves to "Done".
+   │  • Activity comment appended to Trello with all deliverables.
+   │  • Rich 3-part deliverable report (Planned vs Built vs Live URLs) dispatched to Discord.
+```
+
+---
+
 ## Key Features
 
 1. **Zero-Friction Trello Intake**:
@@ -93,38 +125,6 @@ Schedule periodic polling via crontab or Hermes Cron:
 
 # Dispatch morning batch daily at 08:00 WIB
 0 8 * * * cd /path/to/repo && python3 trello_hermes_sync.py morning >/dev/null 2>&1
-```
-
----
-
-## Expected Workflow & Lifecycle
-
-Here is the exact step-by-step lifecycle of a task from creation to completion:
-
-```
-[1. User Creates Card in Trello]
-   │  • List: "Delegate to Hermes Now" (Immediate) or "Delegate to Hermes in Morning" (Batch)
-   │  • Body: Plain description OR sequential agent instructions (e.g. seo_agent: ... product_marketer: ...)
-   ▼
-[2. Sync Bridge Ingestion (trello_hermes_sync.py)]
-   │  • Parses agent roles or defaults to 'default' profile.
-   │  • Ingests tasks into Hermes Kanban (SQLite).
-   │  • Updates Trello card with real-time pipeline status checklist.
-   │  • Sends intake notification to Discord.
-   ▼
-[3. Autonomous Multi-Agent Execution]
-   │  • First stage starts ➔ Trello card automatically moves to "Doing".
-   │  • Discord receives start notification.
-   │  • Hermes Architect profiles execute strategy/copy/spec.
-   │  • Antigravity CLI (`agy`) builds code & renders media in sandbox workspaces.
-   │  • If a task blocks ➔ Discord receives instant blocker alert, Trello updates to [BLOCKED] ⊘.
-   │  • Once unblocked/resumed ➔ Card updates to [RUNNING] ● and continues.
-   │  • Verification: Every stage must pass tests (Exit Code 0).
-   ▼
-[4. Completion & Two-Way Sync Back]
-   │  • All pipeline stages finish ➔ Trello card automatically moves to "Done".
-   │  • Activity comment appended to Trello with all deliverables.
-   │  • Rich 3-part deliverable report (Planned vs Built vs Live URLs) dispatched to Discord.
 ```
 
 ---
