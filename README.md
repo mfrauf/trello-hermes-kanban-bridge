@@ -1,6 +1,6 @@
 # Trello to Hermes Kanban Autonomous Bridge
 
-An automated, two-way bridge connecting a **Trello Board** to **Hermes Agent** multi-profile Kanban queues, executing code and builds via **Antigravity CLI (`agy`)**, and reporting live updates to **Discord**.
+An automated, two-way bridge connecting a **Trello Board** to **Hermes Agent** multi-profile Kanban queues, coordinating specialist AI agents with live updates to **Discord**.
 
 ![Workflow Diagram](assets/workflow_diagram.png)
 
@@ -24,8 +24,8 @@ Here is the exact step-by-step lifecycle of a task from creation to completion:
 [3. Autonomous Multi-Agent Execution]
    │  • First stage starts ➔ Trello card automatically moves to "Doing".
    │  • Discord receives start notification.
-   │  • Hermes Architect profiles execute strategy/copy/spec.
-   │  • Antigravity CLI (`agy`) builds code & renders media in sandbox workspaces.
+   │  • Hermes specialist profiles execute their assigned tasks in isolated workspaces.
+   │  • Supports any coding agent, subagent toolset, or custom CLI builder in your environment.
    │  • If a task blocks ➔ Discord receives instant blocker alert, Trello updates to [BLOCKED] ⊘.
    │  • Once unblocked/resumed ➔ Card updates to [RUNNING] ● and continues.
    │  • Verification: Every stage must pass tests (Exit Code 0).
@@ -50,9 +50,9 @@ Here is the exact step-by-step lifecycle of a task from creation to completion:
    - The bridge automatically creates linked child tasks with dependencies in Hermes Kanban.
    - Single tasks without agent annotations default cleanly to the `default` profile.
 
-3. **Architect vs Builder Separation**:
-   - **Hermes Agent Profiles** direct strategy, research, copywriting, and design specs.
-   - **Antigravity CLI (`agy`)** executes all codebase modifications, image rendering, and test verification in sandbox workspaces.
+3. **Pluggable Agent Architecture**:
+   - Works with any Hermes specialist profile, coding agent, or subagent toolset configured on your instance.
+   - Preserves strict separation between planning, execution, and verification phases.
 
 4. **Live Two-Way Sync & Auditing**:
    - Real-time card movement: `Trigger List` ➔ `Doing` ➔ `Done`.
@@ -66,7 +66,6 @@ Here is the exact step-by-step lifecycle of a task from creation to completion:
 
 ### 1. Prerequisites
 - [Hermes Agent](https://hermes-agent.nousresearch.com/docs) installed on your host/VPS.
-- [Antigravity CLI (`agy`)](https://github.com/google) installed for builder execution.
 - Python 3.10+.
 
 ### 2. Configure Environment Variables
@@ -137,7 +136,7 @@ Create a card with title `[Hermes] Launch New Product Page` and description:
 seo_agent: Research search intent and target keywords for the product
 product_marketer: Write high-converting landing page copy based on SEO intent
 uiux_designer: Create responsive layout and design handoff
-default: Build page in repository using agy and deploy to staging
+default: Build page in repository and deploy to staging
 ```
 Hermes will automatically create 4 sequential child tasks linked by dependencies and update the Trello card with real-time stage tracking.
 
@@ -146,7 +145,7 @@ Create a card with title `[Hermes] Fix API webhook verification error`:
 ```text
 Investigate 401 error in webhook handler and add regression tests.
 ```
-Hermes will assign this task to the `default` profile and execute the fix via `agy`.
+Hermes will assign this task to the `default` profile and execute the fix in its workspace.
 
 ---
 

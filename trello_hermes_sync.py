@@ -305,7 +305,6 @@ pipeline_stage: {idx}/{len(stages)}
 {stage["instructions"]}
 
 ### Invariants & Quality Standards
-- Builder execution: Code implementation and image rendering MUST be executed via Antigravity CLI (`agy`).
 - Standing pre-approval: Proceed through isolated builds, code changes, and staging deployments automatically (zero human approval pauses).
 - Preserve existing working behavior and contracts.
 - Run regression checks before declaring done.
@@ -364,7 +363,7 @@ mode: {mode}
 
                     pipeline_desc += f"""
 ### Invariants
-- Code execution strictly via Antigravity CLI (`agy`).
+- Execution: Run builds and tests in isolated workspaces.
 - Verification with exit code 0 before production push.
 """
                     trello_api(f"cards/{card_id}", method="PUT", data={"desc": pipeline_desc})
